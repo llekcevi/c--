@@ -45,6 +45,28 @@ void printLeaves(node *root)
     printLeaves(root->right);
 }
 
+void leavesCount(node* root, int& count)
+{   
+    if (root == nullptr) return;
+    if (root->left == nullptr && root->right == nullptr)
+    {
+        count+=1;
+    }
+    leavesCount(root->left, count);
+    leavesCount(root->right, count);
+}
+
+void leavesSum(node* root, int& sum)
+{   
+    if (root == nullptr) return;
+    if (root->left == nullptr && root->right == nullptr)
+    {
+        sum+=root->data;
+    }
+    leavesSum(root->left, sum);
+    leavesSum(root->right, sum);
+}
+
 int treeSum(node* root)
 {   
     int sum = 0;
@@ -52,8 +74,6 @@ int treeSum(node* root)
 
     sum = root->data + treeSum(root->right) + treeSum(root->left);
     return sum;
-    //sumOfNodes(root->left);
-    //sumOfNodes(root->right);
 
 }
 
@@ -94,7 +114,14 @@ int main()
 
     printTree(root);
     printLeaves(root);
-    std::cout<<"Sum of nodes:"<<treeSum(root)<<std::endl;
+    int count = 0;
+    int sum = 0;
+    leavesCount(root, count);
+    leavesSum(root, sum);
+    std::cout<<"Number of leaves: "<<count<<std::endl;
+    std::cout<<"Sum of leaves: "<<sum<<std::endl;
+
+    std::cout<<"Sum of nodes: "<<treeSum(root)<<std::endl;
     std::cout<<"Number of nodes: "<<countNodes(root)<<std::endl;
 
     return 0;
